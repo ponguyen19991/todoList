@@ -37,36 +37,31 @@ const Index = () => {
         <h1 className="text-center text-4xl font-extrabold text-gray-900">
           Todo App
         </h1>
-        <Tabs.Root onValueChange={handleChangeTab}  defaultValue="getAll" orientation="vertical">
+        <Tabs.Root onValueChange={handleChangeTab} defaultValue="getAll" orientation="vertical">
           <Tabs.List className="my-10 w-[416px] h-[44px]" aria-label="tabs example">
             <Tabs.Trigger
-            
-              className={`border-black h-12 w-16 rounded-full border duration-300 ${
-                activeTab === 'getAll'
-                  ? 'ring-black bg-[#334155] text-white '
-                  : 'bg-[#fff]'
-              }`}
+              className={`border-black h-12 w-[66px] font-sans text-center text-[14px] font-bold leading-5 rounded-full border border-gray-200 duration-300 ${activeTab === 'getAll'
+                ? 'ring-black bg-[#334155] text-white '
+                : 'bg-[#fff]'
+                }`}
               value="getAll"
-              
             >
               All
             </Tabs.Trigger>
             <Tabs.Trigger
-              className={`border-black mx-2.5 h-12 w-20 rounded-full border duration-300 ${
-                activeTab === 'pending'
-                  ? 'ring-black bg-[#334155] text-white '
-                  : 'bg-[#fff]'
-              }`}
+              className={`border-black mx-2.5 h-12 w-[104px] font-sans text-center text-[14px] font-bold leading-5 rounded-full border border-gray-200 duration-300 ${activeTab === 'pending'
+                ? 'ring-black bg-[#334155] text-white '
+                : 'bg-[#fff]'
+                }`}
               value="pending"
             >
               Pending
             </Tabs.Trigger>
             <Tabs.Trigger
-              className={`border-black h-12 w-24 rounded-full border duration-300 ${
-                activeTab === 'completed'
-                  ? 'ring-black bg-[#334155] text-white '
-                  : 'bg-[#fff]'
-              }`}
+              className={`border-black h-12 w-[124px] font-sans text-center text-[14px] font-bold leading-5 rounded-full border border-gray-200 duration-300 ${activeTab === 'completed'
+                ? 'ring-black bg-[#334155] text-white '
+                : 'bg-[#fff]'
+                }`}
               value="completed"
             >
               Completed

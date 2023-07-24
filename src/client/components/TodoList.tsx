@@ -2,6 +2,8 @@ import type { SVGProps } from 'react'
 
 import * as Checkbox from '@radix-ui/react-checkbox'
 
+import { useAutoAnimate } from '@formkit/auto-animate/react'
+
 import { api } from '@/utils/client/api'
 
 /**
@@ -68,29 +70,32 @@ interface TodoSchema {
   body: string,
   status: string
 }
+
+type TodoStatus = 'completed' | 'pending';
+
 interface TodoListProps {
   todos: TodoSchema[];
 }
 
 export const TodoList: React.FC<TodoListProps> = ({ todos }) => {
   const apiContext = api.useContext()
-  // const { data: todos = [] } = api.todo.getAll.useQuery({
-  //   statuses: ['completed', 'pending'],
-  // })
+  const [parent, enableAnimations] = useAutoAnimate()
   //update Status
   const { mutate: updateTodoStatus } = api.todoStatus.update.useMutation({
     onSuccess: () => {
       apiContext.todo.getAll.refetch()
     },
   })
-  const handleTodoStatusChange = (todoId: number, completed: boolean) => {
+  const handleTodoStatusChange = (todoId: number, completed: TodoStatus) => {
     const newStatus = completed ? 'completed' : 'pending'
     try {
       updateTodoStatus({
         todoId,
         status: newStatus,
       })
-    } catch (error) {}
+    } catch (error) {
+      console.error('Error updating todo status:', error)
+    }
   }
 
   // delete todo
@@ -101,31 +106,31 @@ export const TodoList: React.FC<TodoListProps> = ({ todos }) => {
       },
     })
 
-  const handleDeleteTodo = (id : number ) => {
+  const handleDeleteTodo = (id: number) => {
     try {
       deleteTodo({ id })
     } catch (error) {
-      console.log('error delete todo', error)
+      console.error('Error deleting todo:', error)
     }
+    enableAnimations(true)
   }
 
   return (
-    <ul className="grid grid-cols-1 gap-y-3">
+    <ul className="grid grid-cols-1 gap-y-3" ref={parent}>
       {todos.map((todo: TodoSchema) => (
         <li
           key={todo.id}
-          className={`rounded-12 border border-gray-200 px-4 py-3 shadow-sm ${
-            todo.status === 'completed'
-              ? 'bg-[#F8FAFC] line-through'
-              : 'bg-white'
-          }`}
+          className={`rounded-12 border border-gray-200 px-4 py-3 shadow-sm ${todo.status === 'completed'
+            ? 'bg-[#F8FAFC] line-through'
+            : 'bg-white'
+            }`}
         >
           <div className="flex items-center">
             <Checkbox.Root
               id={String(todo.id)}
               className="flex h-6 w-6 items-center justify-center rounded-6 border border-gray-300 focus:border-gray-700 focus:outline-none data-[state=checked]:border-gray-700 data-[state=checked]:bg-gray-700"
-              onCheckedChange={(checked: boolean) =>
-                handleTodoStatusChange(todo.id, checked)
+              onCheckedChange={(checked: any) =>
+                handleTodoStatusChange(todo.id, checked ? 'completed' : 'pending')
               }
               checked={todo?.status === 'completed'}
             >
