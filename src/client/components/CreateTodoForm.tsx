@@ -24,8 +24,6 @@ import { api } from '@/utils/client/api'
  */
 
 export const CreateTodoForm = () => {
-  const TODO_INPUT_ID = 'todo-input-id'
-
   const [todoBody, setTodoBody] = useState('')
 
   const apiContext = api.useContext()
@@ -75,3 +73,4 @@ export const CreateTodoForm = () => {
     </form>
   )
 }
+const TODO_INPUT_ID = 'todo-input-id'

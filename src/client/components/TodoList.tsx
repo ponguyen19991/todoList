@@ -1,4 +1,5 @@
 import type { SVGProps } from 'react'
+import type { TodoSchema } from '@/pages'
 
 import * as Checkbox from '@radix-ui/react-checkbox'
 
@@ -65,21 +66,16 @@ import { api } from '@/utils/client/api'
  *  - https://auto-animate.formkit.com
  */
 
-interface TodoSchema {
-  id: number,
-  body: string,
-  status: string
-}
-
-type TodoStatus = 'completed' | 'pending';
+type TodoStatus = 'completed' | 'pending'
 
 interface TodoListProps {
-  todos: TodoSchema[];
+  todos: TodoSchema[]
 }
 
 export const TodoList: React.FC<TodoListProps> = ({ todos }) => {
   const apiContext = api.useContext()
   const [parent, enableAnimations] = useAutoAnimate()
+
   //update Status
   const { mutate: updateTodoStatus } = api.todoStatus.update.useMutation({
     onSuccess: () => {
@@ -121,16 +117,19 @@ export const TodoList: React.FC<TodoListProps> = ({ todos }) => {
         <li
           key={todo.id}
           className={`rounded-12 border border-gray-200 px-4 py-3 shadow-sm ${todo.status === 'completed'
-            ? 'bg-[#F8FAFC] line-through'
-            : 'bg-white'
+              ? 'bg-[#F8FAFC] line-through'
+              : 'bg-white'
             }`}
         >
           <div className="flex items-center">
             <Checkbox.Root
               id={String(todo.id)}
               className="flex h-6 w-6 items-center justify-center rounded-6 border border-gray-300 focus:border-gray-700 focus:outline-none data-[state=checked]:border-gray-700 data-[state=checked]:bg-gray-700"
-              onCheckedChange={(checked: any) =>
-                handleTodoStatusChange(todo.id, checked ? 'completed' : 'pending')
+              onCheckedChange={(checked) =>
+                handleTodoStatusChange(
+                  todo.id,
+                  checked ? 'completed' : 'pending'
+                )
               }
               checked={todo?.status === 'completed'}
             >
