@@ -83,11 +83,10 @@ export const TodoList: React.FC<TodoListProps> = ({ todos }) => {
     },
   })
   const handleTodoStatusChange = (todoId: number, completed: TodoStatus) => {
-    const newStatus = completed ? 'completed' : 'pending'
     try {
       updateTodoStatus({
         todoId,
-        status: newStatus,
+        status: completed,
       })
     } catch (error) {
       console.error('Error updating todo status:', error)
@@ -117,8 +116,8 @@ export const TodoList: React.FC<TodoListProps> = ({ todos }) => {
         <li
           key={todo.id}
           className={`rounded-12 border border-gray-200 px-4 py-3 shadow-sm ${todo.status === 'completed'
-              ? 'bg-[#F8FAFC] line-through'
-              : 'bg-white'
+            ? 'bg-[#F8FAFC] line-through'
+            : 'bg-white'
             }`}
         >
           <div className="flex items-center">
